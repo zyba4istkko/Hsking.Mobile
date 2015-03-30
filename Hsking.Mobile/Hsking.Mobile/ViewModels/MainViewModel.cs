@@ -1,29 +1,34 @@
-﻿using System.Windows.Input;
+﻿using System.Diagnostics;
+using System.Windows.Input;
 using Cirrious.MvvmCross.ViewModels;
+using Hsking.Mobile.Api;
+using Hsking.Mobile.ViewModels.Base;
 
 namespace Hsking.Mobile.ViewModels
 {
-    public class MainViewModel : MvxViewModel
+    public class MainViewModel : LoadingScreen
     {
-        private MvxCommand _navigateToRegisterCommand;
+        private readonly IApiSettings _apiSettings;
+        private MvxCommand _navigateToStartCommand;
 
-        public ICommand NavigateToRegisterCommand
+        public ICommand NavigateToStartCommand
         {
             get
             {
-                _navigateToRegisterCommand = _navigateToRegisterCommand ?? new MvxCommand(NavigateToRegister);
-                return _navigateToRegisterCommand;
+                _navigateToStartCommand = _navigateToStartCommand ?? new MvxCommand(NavigateToStart);
+                return _navigateToStartCommand;
             }
         }
 
-        public MainViewModel()
+        public MainViewModel(IApiSettings apiSettings)
         {
-            
+            _apiSettings = apiSettings;
+            Debug.WriteLine(_apiSettings.SavedToken);
         }
 
-        private void NavigateToRegister()
+        private void NavigateToStart()
         {
-            ShowViewModel<RegisterViewModel>();
+            ShowViewModel<StartViewModel>();
         }
     }
 }

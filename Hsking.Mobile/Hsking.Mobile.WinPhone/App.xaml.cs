@@ -9,6 +9,7 @@ using Cirrious.MvvmCross.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Hsking.Mobile.WinPhone.Resources;
+using Telerik.Windows.Controls;
 
 namespace Hsking.Mobile.WinPhone
 {
@@ -129,7 +130,10 @@ namespace Hsking.Mobile.WinPhone
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
-            RootFrame = new PhoneApplicationFrame();
+            RootFrame = new RadPhoneApplicationFrame()
+            {
+                Transition = new RadContinuumAndSlideTransition()
+            };
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // Handle navigation failures

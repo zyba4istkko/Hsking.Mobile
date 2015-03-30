@@ -13,13 +13,13 @@ using RestSharp.Portable.Deserializers;
 
 namespace Hsking.Mobile.Api.Executer
 {
-    public class ApiExecuter
+    public class ApiExecuter : IApiExecuter
     {
         private RestClient _restClient;
 
-        public ApiExecuter(string baseUrl)
+        public ApiExecuter(IApiSettings apiSettings)
         {
-            _restClient= new RestSharp.Portable.RestClient(baseUrl);
+            _restClient = new RestSharp.Portable.RestClient(apiSettings.BaseUrl);
             _restClient.AddHandler("application/json", new JsonDeserializer());
        
         }

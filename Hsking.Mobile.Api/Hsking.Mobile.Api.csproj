@@ -37,8 +37,11 @@
   <ItemGroup>
     <Compile Include="ApiException.cs" />
     <Compile Include="ExceptionRouter\IApiExceptionRouter.cs" />
+    <Compile Include="Executer\IApiExecuter.cs" />
     <Compile Include="Facade\ApiService.cs" />
     <Compile Include="Executer\ApiExecuter.cs" />
+    <Compile Include="Facade\IApiFacade.cs" />
+    <Compile Include="IApiSettings.cs" />
     <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\DefaultShedule.cs" />

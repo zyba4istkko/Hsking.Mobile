@@ -11,15 +11,11 @@ using Microsoft.Phone.Shell;
 
 namespace Hsking.Mobile.WinPhone.Views
 {
-    public partial class RegisterView : MvxPhonePage
+    public partial class StartView : MvxPhonePage
     {
-        public RegisterView()
+        public StartView()
         {
             InitializeComponent();
         }
-
-       
-
-      
     }
 }

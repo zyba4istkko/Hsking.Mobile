@@ -1,0 +1,169 @@
+﻿<views:MvxPhonePage
+    x:Class="Hsking.Mobile.WinPhone.Views.StartView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Cirrious.MvvmCross.WindowsPhone.Views;assembly=Cirrious.MvvmCross.WindowsPhone"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:pagination="clr-namespace:Telerik.Windows.Controls.Pagination;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:channels="clr-namespace:System.ServiceModel.Channels;assembly=System.ServiceModel"
+    xmlns:controls="clr-namespace:Hsking.Mobile.WinPhone.Controls"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    Background="{StaticResource BackgroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    
+    shell:SystemTray.IsVisible="False">
+    <views:MvxPhonePage.Resources>
+        <DataTemplate x:Key="dot">
+            <Border Width="28" Height="28" Background="#00FFFFFF">
+                <Ellipse Stroke="{StaticResource AccentBrush}" 
+                         StrokeThickness="2" Width="8" Height="8"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"/>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="dotFilled">
+            <Border Width="28" Height="28" Background="#00FFFFFF">
+                <Ellipse Fill="{StaticResource AccentBrush}" 
+                         Width="12" Height="12"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"/>
+            </Border>
+        </DataTemplate>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#5399c2"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#5399c2"/>
+        </Style>
+    </views:MvxPhonePage.Resources>
+
+    <Grid Background="GhostWhite">
+        <Grid>
+            <Grid.Background>
+                <ImageBrush Opacity="0.93" Stretch="UniformToFill"  ImageSource="/Assets/Images/header-bg.jpg" />
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Margin="20" Style="{StaticResource LogoTextBlockStyle}"/>
+            <telerikPrimitives:RadPaginationControl   HorizontalContentAlignment="Center" Grid.Row="1" PageProvider="{Binding ElementName=slideView}" 
+                                      DisplayMode="Thumbnails"
+                                      ItemTemplate="{StaticResource dot}"
+                                      CurrentItemTemplate="{StaticResource dotFilled}"
+                                      x:Name="pagination"
+                                      NavigationMode="Adjacent"
+                                     VerticalAlignment="Center"
+                                      Margin="0">
+                <telerikPrimitives:RadPaginationControl.LayoutDefinition>
+                    <telerikPrimitives:PaginationControlLayoutDefinition IndexLabelPosition="0,0" 
+                                                           LeftArrowPosition="1,0" 
+                                                           RightArrowPosition="1,2" 
+                                                           ThumbnailListPosition="1,1">
+                        <telerikPrimitives:PaginationControlLayoutDefinition.Rows>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </telerikPrimitives:PaginationControlLayoutDefinition.Rows>
+                        <telerikPrimitives:PaginationControlLayoutDefinition.Columns>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </telerikPrimitives:PaginationControlLayoutDefinition.Columns>
+                    </telerikPrimitives:PaginationControlLayoutDefinition>
+                </telerikPrimitives:RadPaginationControl.LayoutDefinition>
+        
+                <telerikPrimitives:RadPaginationControl.ThumbnailListStyle>
+                    <Style TargetType="pagination:PaginationThumbnailListControl">
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Bottom"/>
+                        <Setter Property="Canvas.ZIndex" Value="-1"/>
+                        <Setter Property="Margin" Value="0,0,0,14"/>
+                    </Style>
+                </telerikPrimitives:RadPaginationControl.ThumbnailListStyle>
+
+            </telerikPrimitives:RadPaginationControl>
+            <Grid  x:Name="LayoutRoot" Grid.Row="2" Background="Transparent" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+               
+                <telerikPrimitives:RadSlideView Grid.Row="2"   SelectedItem="{Binding SelectedPage,Mode=TwoWay}"  ItemsSource="{Binding Pages,Mode=TwoWay}" x:Name="slideView">
+                    <telerikPrimitives:RadSlideView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SlideViewPaginationTemplateSelector Content="{Binding}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                <controls:SlideViewPaginationTemplateSelector.Page1>
+                                    <DataTemplate>
+                                        <ScrollViewer>
+                                            <StackPanel DataContext="{Binding ElementName=slideView,Path=DataContext}">
+                                                <TextBlock Text="Какие задачи решает HSKing?" Foreground="White"  Style="{StaticResource PhoneTextTitle2Style}" HorizontalAlignment="Center" FontWeight="ExtraBlack"/>
+                                                <TextBlock Margin="0,10,0,10" HorizontalAlignment="Center" TextWrapping="Wrap"  Text="HSKing предназначен для изучения нового навыка и выработки привычки его использовать." Style="{StaticResource PhoneTextTitle3Style}" Foreground="LightGray"/>
+                                                <ItemsControl  HorizontalAlignment="Center" ItemsSource="{Binding Tasks}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel>
+                                                                <Grid >
+                                                                    <Ellipse Opacity="0.8" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="120" StrokeThickness="7" Stroke="{StaticResource AccentBrush}">
+                                                                    </Ellipse>
+                                                                    <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Center"  FontSize="70" Text="{Binding Icon}" FontFamily="/Resources/Fonts/FontAwesome.otf#FontAwesome"/>
+                                                                </Grid>
+                                                                <TextBlock Margin="0,10,0,10"  HorizontalAlignment="Center" TextWrapping="Wrap"  Text="{Binding Description}" Style="{StaticResource PhoneTextTitle3Style}" Foreground="White"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </DataTemplate>
+                                </controls:SlideViewPaginationTemplateSelector.Page1>
+                                <controls:SlideViewPaginationTemplateSelector.Page2>
+                                    <DataTemplate>
+                                        <ScrollViewer>
+                                            <StackPanel DataContext="{Binding ElementName=slideView,Path=DataContext}">
+                                                <TextBlock Text="Какие задачи решает HSKing?" Foreground="White"  Style="{StaticResource PhoneTextTitle2Style}" HorizontalAlignment="Center" FontWeight="ExtraBlack"/>
+                                                <TextBlock Margin="0,10,0,10" HorizontalAlignment="Center" TextWrapping="Wrap"  Text="HSKing предназначен для изучения нового навыка и выработки привычки его использовать." Style="{StaticResource PhoneTextTitle3Style}" Foreground="LightGray"/>
+                                                <ItemsControl  HorizontalAlignment="Center" ItemsSource="{Binding Tasks}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel>
+                                                                <Grid >
+                                                                    <Ellipse Opacity="0.8" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="120" StrokeThickness="7" Stroke="{StaticResource AccentBrush}">
+                                                                    </Ellipse>
+                                                                    <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Center"  FontSize="70" Text="{Binding Icon}" FontFamily="/Resources/Fonts/FontAwesome.otf#FontAwesome"/>
+                                                                </Grid>
+                                                                <TextBlock Margin="0,10,0,10"  HorizontalAlignment="Center" TextWrapping="Wrap"  Text="{Binding Description}" Style="{StaticResource PhoneTextTitle3Style}" Foreground="White"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </DataTemplate>
+                                </controls:SlideViewPaginationTemplateSelector.Page2>
+                            </controls:SlideViewPaginationTemplateSelector>
+                        </DataTemplate>
+                    </telerikPrimitives:RadSlideView.ItemTemplate>
+
+                </telerikPrimitives:RadSlideView>
+            </Grid>
+            <Button Command="{Binding NavigateToRegisterCommand}" Grid.Row="3" Width="400" Height="80" Style="{StaticResource ButtonStyle}" Opacity="1" >
+                <TextBlock FontSize="20"  FontFamily="Segoe UI" FontWeight="Medium" Foreground="{StaticResource ForegroundOnAccent}" Text="Зарегистрироваться"/>
+            </Button>
+        </Grid>
+    </Grid>
+
+</views:MvxPhonePage>

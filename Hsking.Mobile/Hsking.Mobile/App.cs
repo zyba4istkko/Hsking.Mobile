@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
+using Hsking.Mobile.Api;
+using Hsking.Mobile.Api.Executer;
+using Hsking.Mobile.Api.Facade;
+using Hsking.Mobile.Settings;
 
 
 namespace Hsking.Mobile
@@ -22,7 +26,10 @@ namespace Hsking.Mobile
             //    .RegisterAsLazySingleton();
 
             RegisterAppStart<ViewModels.MainViewModel>();
-            //Mvx.RegisterSingleton(typeof(ISettingsService), _settingsService);
+            // _apiExecuter = new ApiExecuter("http://hskingapi.azurewebsites.net/api");
+            Mvx.RegisterType<IApiSettings,ApiSettings>();
+            Mvx.RegisterType<IApiExecuter,ApiExecuter>();
+            Mvx.RegisterType<IApiFacade,ApiFacade>();
             //Mvx.RegisterType<IRequestExecuterService, RequestExecuterService>();
             //Mvx.ConstructAndRegisterSingleton<IApiManager, ApiManager>();
         }

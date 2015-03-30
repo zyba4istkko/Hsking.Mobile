@@ -50,6 +50,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ApiServiceTest.cs" />
+    <Compile Include="FakeApiSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

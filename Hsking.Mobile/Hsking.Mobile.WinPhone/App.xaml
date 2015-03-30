@@ -3,7 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:helpers="clr-namespace:Hsking.Mobile.WinPhone.Helpers"
+    xmlns:convertersWrapper="clr-namespace:Hsking.Mobile.WinPhone.Helpers.ConvertersWrapper">
 
     <!--Application Resources-->
     <Application.Resources>
@@ -11,7 +13,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Hsking.Mobile.WinPhone;component/Resources/Resources.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <convertersWrapper:TheNativeBoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <convertersWrapper:TheNativeReverseBoolToVisibilityConverter x:Key="ReverseBoolToVisibilityConverter"/>
         </ResourceDictionary>
+        
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

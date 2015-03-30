@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Hsking.Mobile.WinPhone.Controls
 {
-    public class SlideViewPaginationTemplateSelector : DataTemplateSelector
+    public class TransitionControlTemplateSelector : DataTemplateSelector
     {
+
+        public TransitionControlTemplateSelector()
+        {
+            
+        }
         public DataTemplate Page1
         {
             get;

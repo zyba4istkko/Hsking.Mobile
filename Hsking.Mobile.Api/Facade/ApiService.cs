@@ -10,17 +10,18 @@ using Hsking.Mobile.Api.Requests.Base;
 
 namespace Hsking.Mobile.Api.Facade
 {
-    public class ApiFacade
+    public class ApiFacade : IApiFacade
     {
         private readonly IApiExceptionRouter _exceptionRouter;
-        private ApiExecuter _apiExecuter;
-        private Token _token;
+        private IApiExecuter _apiExecuter;
+        private readonly IApiSettings _apiSettings;
+        
 
-        public ApiFacade(IApiExceptionRouter exceptionRouter)
+        public ApiFacade(IApiExecuter apiExecuter,IApiSettings apiSettings)
         {
-            _exceptionRouter = exceptionRouter;
-            _apiExecuter = new ApiExecuter("http://hskingapi.azurewebsites.net/api");
-            //_apiExecuter = new ApiExecuter("http://localhost:17720/api");
+            _apiExecuter = apiExecuter;
+            _apiSettings = apiSettings;
+   
         }
 
         public Task<List<Habit>> GetHabits()
@@ -28,13 +29,15 @@ namespace Hsking.Mobile.Api.Facade
             return ExecuteWithErrorHandling<List<Habit>>(new GetHabitsRequest());
         }
 
-        public Task<Token> Auth(string phoneNumber,string password)
+        public async Task<Token> Auth(string phoneNumber,string password)
         {
             var authRequest = new AuthRequest();
             authRequest.AddParam("grant_type", "password");
             authRequest.AddParam("userName", phoneNumber);
             authRequest.AddParam("password", password);
-            return ExecuteWithErrorHandling<Token>(authRequest);
+            var token=await ExecuteWithErrorHandling<Token>(authRequest);
+            _apiSettings.SavedToken = token;
+            return token;
         }
 
 
@@ -43,12 +46,12 @@ namespace Hsking.Mobile.Api.Facade
         {
             try
             {
-               request.Token = _token;//Добавляем токен
+                request.Token = _apiSettings.SavedToken;//Добавляем токен
                return _apiExecuter.Execute<T>(request);
             }
             catch (ApiException ex)
             {
-               _exceptionRouter.Route(ex);
+             
                throw ex;
             }
         }
